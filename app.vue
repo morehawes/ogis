@@ -1,14 +1,20 @@
 <script setup>
-// Import the MapLibre mapping library
+// Import the MapLibre
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-// Import Terra Draw, we will import the MapLibre adapter, select mode and polygon mode
+// Import Terra Draw
 import {
   TerraDraw,
   TerraDrawMapLibreGLAdapter,
   TerraDrawSelectMode,
   TerraDrawPolygonMode,
+  TerraDrawPointMode,
+  TerraDrawLineStringMode,
+  TerraDrawGreatCircleMode,
+  TerraDrawFreehandMode,
+  TerraDrawCircleMode,
+  TerraDrawRectangleMode,
 } from "terra-draw";
 
 let draw = ref(null);
@@ -53,12 +59,12 @@ onMounted(() => {
       map: mapLibreMap,
 
       // The decimal precision of the coordinates created
-      coordinatePrecision: 9,
+      //coordinatePrecision: 9,
     }),
 
-    // Modes is an object containing all the modes we wish to
-    // instantiate Terra Draw with
+    // Modes
     modes: [
+      //Select
       new TerraDrawSelectMode({
         flags: {
           // Following flags determine what you can do in
@@ -77,9 +83,41 @@ onMounted(() => {
           },
         },
       }),
+
+      // Poly
       new TerraDrawPolygonMode({
         allowSelfIntersections: false,
         pointerDistance: 30,
+      }),
+
+      // Point
+      new TerraDrawPointMode({
+        // The radius of the point
+        radius: 20,
+      }),
+
+      // Line String
+      new TerraDrawLineStringMode({
+        // The radius of the point
+        radius: 20,
+      }),
+
+      // Great Circle
+      new TerraDrawGreatCircleMode({
+        // The radius of the point
+        radius: 20,
+      }),
+
+      // Freehand
+      new TerraDrawFreehandMode({
+        // The radius of the point
+        radius: 20,
+      }),
+
+      // Circle
+      new TerraDrawCircleMode({
+        // The radius of the point
+        radius: 20,
       }),
     ],
   });
@@ -107,35 +145,89 @@ onMounted(() => {
       <div class="toolbar">
         <!-- START Toolbar Title -->
         <div class="toolbar-title">
-          <h3>Terra Draw</h3>
+          <h3>OGIS</h3>
         </div>
         <!-- END Toolbar Title -->
 
-        <!-- START Toolbar Buttons -->
+        <!-- START Toolbar Buttons: For all tools (    // "select",
+    // "polygon",
+   // "point",
+    // "linestring",
+    // "greatcircle",
+    // "freehand",
+    // "circle",
+    // "rectangle",) -->
         <div class="toolbar-buttons">
-          <!-- START Toolbar Button -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('polygon')">Polygon</button>
-          </div>
-          <!-- END Toolbar Button -->
-
-          <!-- START Toolbar Button -->
+          <!-- Select -->
           <div class="toolbar-button">
             <button @click="draw.setMode('select')">Select</button>
           </div>
-          <!-- END Toolbar Button -->
+
+          <!-- Polygon -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('polygon')">Polygon</button>
+          </div>
+
+          <!-- Point -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('point')">Point</button>
+          </div>
+
+          <!-- Line String -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('linestring')">Line String</button>
+          </div>
+
+          <!-- Great Circle -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('greatcircle')">Great Circle</button>
+          </div>
+
+          <!-- Freehand -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('freehand')">Freehand</button>
+          </div>
+
+          <!-- Circle -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('circle')">Circle</button>
+          </div>
+
+          <!-- Rectangle -->
+          <div class="toolbar-button">
+            <button @click="draw.setMode('rectangle')">Rectangle</button>
+          </div>
+
+          <!-- Clear -->
+          <div class="toolbar-button">
+            <button @click="draw.clear()">Clear</button>
+          </div>
+
+          <!--           <div class="toolbar-button">
+            <button @click="console.log(draw.export())">Export</button>
+          </div>
+
+          <div class="toolbar-button">
+            <button @click="draw.import()">Import</button>
+          </div>
+
+          <div class="toolbar-button">
+            <button @click="draw.undo()">Undo</button>
+          </div>
+
+          <div class="toolbar-button">
+            <button @click="draw.redo()">Redo</button>
+          </div>
+
+          <div class="toolbar-button">
+            <button @click="draw.delete()">Delete</button>
+          </div>
+ -->
         </div>
-        <!-- END Toolbar Buttons -->
       </div>
       <!-- END Toolbar -->
-
-      <!-- START Info -->
-      <div class="info">
-        <p><strong>Click</strong> to add a point</p>
-        <p><strong>Double click</strong> to finish</p>
-      </div>
-      <!-- END Info -->
     </div>
+    <!-- END Right -->
   </div>
   <!-- END Container -->
 </template>
@@ -150,54 +242,52 @@ body {
   background-color: #fff;
 }
 
-// START Container
+/* START Container */
 .container {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100vh;
 
-  // START Left (66.66% width)
+  /* START Left (66.66% width) */
   .left {
     width: 66.66%;
     height: 100%;
   }
 
-  // START Right (33.33% width)
+  /* START Right (33.33% width) */
   .right {
     width: 33.33%;
     height: 100%;
     background-color: #f5f5f5;
     padding: 20px;
 
-    // START Toolbar
+    /* START Toolbar */
     .toolbar {
-      display: flex;
-      flex-direction: row;
       align-items: center;
       justify-content: space-between;
       width: 100%;
       height: 50px;
       margin-bottom: 20px;
 
-      // START Toolbar Title
+      /* START Toolbar Title */
       .toolbar-title {
         h3 {
           margin: 0;
         }
       }
-      // END Toolbar Title
+      /* END Toolbar Title */
 
-      // START Toolbar Buttons
+      /* START Toolbar Buttons */
       .toolbar-buttons {
-        display: flex;
-        flex-direction: row;
+        /* display: flex; */
+        /* flex-direction: row; */
         align-items: center;
         justify-content: space-between;
         width: 100%;
         height: 100%;
 
-        // START Toolbar Button
+        /* START Toolbar Button */
         .toolbar-button {
           button {
             width: 100%;
@@ -214,24 +304,21 @@ body {
             }
           }
         }
-        // END Toolbar Button
       }
-      // END Toolbar Buttons
     }
-    // END Toolbar
+    /* END Toolbar */
 
-    // START Info
+    /* START Info */
     .info {
       p {
         margin: 0;
         margin-bottom: 10px;
       }
     }
-    // END Info
   }
 }
 
-// START Map
+/* START Map */
 #map {
   width: 100%;
   height: 100%;
