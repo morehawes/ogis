@@ -93,6 +93,8 @@ onMounted(() => {
 <template>
   <div>
     <div id="map" />
+
+    <UButton @click="draw.undo()">Undo</UButton>
   </div>
 </template>
 
