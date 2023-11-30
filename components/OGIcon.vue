@@ -1,5 +1,5 @@
 <script setup>
-const props = 	defineProps({
+const props = defineProps({
 	name: {
 		type: String,
 		required: true,
@@ -12,9 +12,13 @@ const props = 	defineProps({
 		type: String,
 		default: "black",
 	},
+	text: {
+		type: String,
+		default: "",
+	},
 });
 
-const iconNames = ref(["polygon"]);
+const iconNames = ref(["polygon", "polyline", "marker"]);
 
 const iconName = computed(() => {
 	if (iconNames.value.indexOf(props.name) > -1) {
@@ -27,12 +31,11 @@ const iconName = computed(() => {
 
 <template>
 	<div class="og-icon">
-		{{ iconName }}
-
 		<img
 			v-show="iconName"
 			:src="`/img/icon/${iconName}.svg`"
-			:alt="iconName"
+			:alt="text"
+			:title="text"
 			:width="size"
 			:height="size"
 		/>

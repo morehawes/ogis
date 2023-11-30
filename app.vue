@@ -18,65 +18,7 @@ import {
 } from "terra-draw";
 
 let draw = ref(null);
-
-const buttons = ref([
-  {
-    text: "Polygon",
-    icon: "polygon",
-    onClick: () => {
-      draw.setMode("polygon");
-    },
-  },
-  {
-    text: "Point",
-    icon: "point",
-    onClick: () => {
-      draw.setMode("point");
-    },
-  },
-  {
-    text: "Line String",
-    icon: "linestring",
-    onClick: () => {
-      draw.setMode("linestring");
-    },
-  },
-  {
-    text: "Great Circle",
-    icon: "greatcircle",
-    onClick: () => {
-      draw.setMode("greatcircle");
-    },
-  },
-  {
-    text: "Freehand",
-    icon: "freehand",
-    onClick: () => {
-      draw.setMode("freehand");
-    },
-  },
-  {
-    text: "Circle",
-    icon: "circle",
-    onClick: () => {
-      draw.setMode("circle");
-    },
-  },
-  {
-    text: "Rectangle",
-    icon: "rectangle",
-    onClick: () => {
-      draw.setMode("rectangle");
-    },
-  },
-  {
-    text: "Clear",
-    icon: "clear",
-    onClick: () => {
-      draw.clear();
-    },
-  },
-]);
+let ready = ref(false);
 
 onMounted(() => {
   // Initialize a new MapLibre map, providing the id of the div to display the map
@@ -186,6 +128,8 @@ onMounted(() => {
 
   // Set the mode to polygon
   draw.setMode("polygon");
+
+  ready.value = true;
 });
 </script>
 
@@ -200,8 +144,8 @@ onMounted(() => {
 
     <!-- START Right (33.33% width) -->
     <div class="right">
-      <!-- START Toolbar -->
-      <og-toolbar :buttons="buttons" />
+      <!-- START Draw Toolbar -->
+      <og-toolbar-editor :draw="draw" />
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->
