@@ -19,6 +19,65 @@ import {
 
 let draw = ref(null);
 
+const buttons = ref([
+  {
+    text: "Polygon",
+    icon: "accessibility",
+    onClick: () => {
+      draw.setMode("polygon");
+    },
+  },
+  {
+    text: "Point",
+    icon: "point",
+    onClick: () => {
+      draw.setMode("point");
+    },
+  },
+  {
+    text: "Line String",
+    icon: "linestring",
+    onClick: () => {
+      draw.setMode("linestring");
+    },
+  },
+  {
+    text: "Great Circle",
+    icon: "greatcircle",
+    onClick: () => {
+      draw.setMode("greatcircle");
+    },
+  },
+  {
+    text: "Freehand",
+    icon: "freehand",
+    onClick: () => {
+      draw.setMode("freehand");
+    },
+  },
+  {
+    text: "Circle",
+    icon: "circle",
+    onClick: () => {
+      draw.setMode("circle");
+    },
+  },
+  {
+    text: "Rectangle",
+    icon: "rectangle",
+    onClick: () => {
+      draw.setMode("rectangle");
+    },
+  },
+  {
+    text: "Clear",
+    icon: "clear",
+    onClick: () => {
+      draw.clear();
+    },
+  },
+]);
+
 onMounted(() => {
   // Initialize a new MapLibre map, providing the id of the div to display the map
   // Set the initial center (longitude, latitude) and the zoom level
@@ -142,89 +201,7 @@ onMounted(() => {
     <!-- START Right (33.33% width) -->
     <div class="right">
       <!-- START Toolbar -->
-      <div class="toolbar">
-        <!-- START Toolbar Title -->
-        <div class="toolbar-title">
-          <h3>OGIS</h3>
-        </div>
-        <!-- END Toolbar Title -->
-
-        <!-- START Toolbar Buttons: For all tools (    // "select",
-    // "polygon",
-   // "point",
-    // "linestring",
-    // "greatcircle",
-    // "freehand",
-    // "circle",
-    // "rectangle",) -->
-        <div class="toolbar-buttons">
-          <!-- Select -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('select')">Select</button>
-          </div>
-
-          <!-- Polygon -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('polygon')">Polygon</button>
-          </div>
-
-          <!-- Point -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('point')">Point</button>
-          </div>
-
-          <!-- Line String -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('linestring')">Line String</button>
-          </div>
-
-          <!-- Great Circle -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('greatcircle')">Great Circle</button>
-          </div>
-
-          <!-- Freehand -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('freehand')">Freehand</button>
-          </div>
-
-          <!-- Circle -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('circle')">Circle</button>
-          </div>
-
-          <!-- Rectangle -->
-          <div class="toolbar-button">
-            <button @click="draw.setMode('rectangle')">Rectangle</button>
-          </div>
-
-          <!-- Clear -->
-          <div class="toolbar-button">
-            <button @click="draw.clear()">Clear</button>
-          </div>
-
-          <!--           <div class="toolbar-button">
-            <button @click="console.log(draw.export())">Export</button>
-          </div>
-
-          <div class="toolbar-button">
-            <button @click="draw.import()">Import</button>
-          </div>
-
-          <div class="toolbar-button">
-            <button @click="draw.undo()">Undo</button>
-          </div>
-
-          <div class="toolbar-button">
-            <button @click="draw.redo()">Redo</button>
-          </div>
-
-          <div class="toolbar-button">
-            <button @click="draw.delete()">Delete</button>
-          </div>
- -->
-        </div>
-      </div>
+      <og-toolbar :buttons="buttons" />
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->
