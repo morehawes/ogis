@@ -1,7 +1,5 @@
 <script setup>
-import { require } from "require";
-
-defineProps({
+const props = 	defineProps({
 	name: {
 		type: String,
 		required: true,
@@ -16,26 +14,32 @@ defineProps({
 	},
 });
 
-const iconNames = ref(["accessibility"]);
+const iconNames = ref(["polygon"]);
 
 const iconName = computed(() => {
-	if (iconNames.value.includes(name)) {
-		return name;
+	if (iconNames.value.indexOf(props.name) > -1) {
+		return props.name;
 	} else {
-		return "accessibility";
+		return false;
 	}
 });
 </script>
 
 <template>
 	<div class="og-icon">
-		<div
-			v-html="require(`../node_modules/ionicons/dist/svg/${name}.svg?raw`)"
+		{{ iconName }}
+
+		<img
+			v-show="iconName"
+			:src="`/img/icon/${iconName}.svg`"
+			:alt="iconName"
+			:width="size"
+			:height="size"
 		/>
 	</div>
 </template>
 
-<style>
+<style lang="less">
 .og-icon {
 	background-color: red;
 

@@ -22,7 +22,7 @@ let draw = ref(null);
 const buttons = ref([
   {
     text: "Polygon",
-    icon: "accessibility",
+    icon: "polygon",
     onClick: () => {
       draw.setMode("polygon");
     },
