@@ -1,15 +1,20 @@
-const { map, init: mapInit } = useMap();
-
 export const useMapStore = defineStore("MapStore", () => {
-	const config = reactive(new Map([["mapEleID", "map"]]));
-	const state = reactive(new Map([["status", null]]));
+	const { map, init: mapInit } = useMap();
+
+	const config = ref({
+		mapEleID: "map",
+	});
+
+	const state = ref({
+		status: null,
+	});
 
 	const init = () => {
 		mapInit({
-			mapEleID: config.get("mapEleID"),
+			mapEleID: config.value.mapEleID,
 		});
 
-		state.set("status", "init");
+		state.value.status = "init";
 	};
 
 	return {

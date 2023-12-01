@@ -1,15 +1,17 @@
-const { map } = useMap();
-const { draw, init: drawInit } = useDraw();
-
 export const useDrawStore = defineStore("DrawStore", () => {
-	const state = reactive(new Map([["status", null]]));
+	const { map } = useMap();
+	const { draw, init: drawInit } = useDraw();
+
+	const state = ref({
+		status: null,
+	});
 
 	const init = () => {
 		drawInit({
-			map: map,
+			map: map.value,
 		});
 
-		state.set("status", "init");
+		state.value.status = "init";
 	};
 
 	return {

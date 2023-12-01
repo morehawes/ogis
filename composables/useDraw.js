@@ -15,9 +15,10 @@ import {
 } from "terra-draw";
 
 export function useDraw() {
-	const config = reactive(new Map([["map", null]]));
-	const state = reactive(new Map([["status", null]]));
-	let draw = reactive(null);
+	const draw = ref(null);
+
+	const config = ref({ map: null });
+	const state = ref({ status: null });
 
 	// Initialise Terra Draw
 	const init = (useConfig = {}) => {
@@ -29,18 +30,18 @@ export function useDraw() {
 		}
 
 		// Merge useConfig into config
-		config.forEach((value, key) => {
+		config.value.forEach((value, key) => {
 			// Iff allowable key
 			if (useConfig[key]) {
-				config.set(key, useConfig[key]);
+				config.value.key = useConfig[key];
 			}
 		});
 
 		// Initialize Terra Draw
-		draw = new TerraDraw({
+		draw.value = new TerraDraw({
 			adapter: new TerraDrawMapLibreGLAdapter({
 				lib: MapLibreGL,
-				map: config.get("map"),
+				map: config.value.map,
 				//coordinatePrecision: 9,
 			}),
 
@@ -111,12 +112,12 @@ export function useDraw() {
 		});
 
 		// Start drawing
-		draw.start();
+		draw.value.start();
 
 		// Set the mode to polygon
-		draw.setMode("polygon");
+		draw.value.setMode("polygon");
 
-		state.set("status", "init");
+		state.value.status = "init";
 	};
 
 	return {

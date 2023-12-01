@@ -1,8 +1,8 @@
 <script setup>
-const { state: mapState } = useMapStore();
+const { state, init } = useMapStore();
 
-const mapReady = computed(() => {
-  return mapState.get("state");
+onMounted(() => {
+  init();
 });
 </script>
 
@@ -17,8 +17,9 @@ const mapReady = computed(() => {
 
     <!-- START Right (33.33% width) -->
     <div class="right">
+      {{ state.status }}
       <!-- START Draw Toolbar -->
-      <og-toolbar-editor v-show="mapReady" />
+      <og-toolbar-editor v-show="state.status" />
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->

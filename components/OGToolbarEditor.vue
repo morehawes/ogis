@@ -1,8 +1,5 @@
 <script setup>
 const { init, draw, state } = useDrawStore();
-const drawReady = computed(() => {
-	return state.get("status");
-});
 
 onMounted(() => {
 	init();
@@ -10,7 +7,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="og-toolbar" v-show="drawReady">
+	{{ state.status }}
+
+	<div class="og-toolbar" v-show="state.status">
 		<og-button text="Marker" icon="marker" @click="draw.setMode('point')" />
 		<og-button
 			text="Line"

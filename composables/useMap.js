@@ -3,9 +3,10 @@ import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 export function useMap() {
-	let map = reactive(null);
-	const config = reactive(new Map([["mapEleID", null]]));
-	const state = reactive(new Map([["status", null]]));
+	const map = ref(null);
+
+	const config = ref({ mapEleID: null });
+	const state = ref({ status: null });
 
 	// Initialise MapLibre
 	const init = (useConfig = {}) => {
@@ -17,18 +18,11 @@ export function useMap() {
 		}
 
 		// Merge useConfig into config
-		config.forEach((value, key) => {
-			// Iff allowable key
-			if (useConfig[key]) {
-				config.set(key, useConfig[key]);
-
-				console.debug(`useMap init: ${key} ${useConfig[key]}`);
-			}
-		});
+		config.value = { ...config.value, ...useConfig };
 
 		// Initialise MapLibre
-		map = new MapLibreGL.Map({
-			container: config.get("mapEleID"),
+		map.value = new MapLibreGL.Map({
+			container: config.value.mapEleID,
 			style: {
 				version: 8,
 				sources: {
@@ -54,7 +48,7 @@ export function useMap() {
 			maxZoom: 20,
 		});
 
-		state.set("status", "init");
+		state.value.status = "init";
 	};
 
 	return {
