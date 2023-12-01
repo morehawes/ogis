@@ -17,8 +17,10 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
     "less": "^4.2.0",
     "maplibre-gl": "^3.6.2",
+    "pinia": "^2.1.7",
     "terra-draw": "^0.0.1-alpha.51"
   }
 }

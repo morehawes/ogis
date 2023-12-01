@@ -17,6 +17,10 @@ import {
   TerraDrawRectangleMode,
 } from "terra-draw";
 
+const drawStore = useDrawStore();
+
+
+
 let draw = ref(null);
 let ready = ref(false);
 
@@ -120,7 +124,7 @@ onMounted(() => {
         // The radius of the point
         radius: 20,
       }),
-    
+
     ],
   });
 
@@ -132,6 +136,10 @@ onMounted(() => {
 
   ready.value = true;
 });
+
+onMounted(() => {
+  console.log(drawStore.joe)
+})
 </script>
 
 <template>
