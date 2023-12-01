@@ -1,10 +1,4 @@
-<script setup>
-const { state, init } = useMapStore();
-
-onMounted(() => {
-  init();
-});
-</script>
+<script setup></script>
 
 <template>
   <!-- START Container -->
@@ -17,9 +11,8 @@ onMounted(() => {
 
     <!-- START Right (33.33% width) -->
     <div class="right">
-      {{ state.status }}
       <!-- START Draw Toolbar -->
-      <og-toolbar-editor v-show="state.status" />
+      <og-toolbar-editor />
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->
