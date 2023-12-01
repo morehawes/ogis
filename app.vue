@@ -1,51 +1,5 @@
 <script setup>
-const mapStore = useMapStore();
-const { map } = mapStore;
-
-const drawStore = useDrawStore();
-const { draw } = drawStore;
-
-console.log(map, draw);
-
-debugger;
-
-let ready = ref(false);
-
-onMounted(() => {
-  // Initialize map
-  const mapLibreMap = new MapLibreGL.Map({
-    container: "map",
-    style: {
-      version: 8,
-      sources: {
-        "osm-tiles": {
-          type: "raster",
-          tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-          tileSize: 256,
-          attribution:
-            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        },
-      },
-      layers: [
-        {
-          id: "osm-tiles",
-          type: "raster",
-          source: "osm-tiles",
-        },
-      ],
-    },
-    center: [0, 0],
-    zoom: 0,
-    minZoom: 1,
-    maxZoom: 20,
-  });
-
-  ready.value = true;
-});
-
-onMounted(() => {
-  console.log(drawStore.joe);
-});
+onMounted(() => {});
 </script>
 
 <template>
@@ -54,13 +8,13 @@ onMounted(() => {
     <!-- START Left (66.66% width) -->
     <div class="left">
       <!-- START Map -->
-      <div id="map" />
+      <og-map />
     </div>
 
     <!-- START Right (33.33% width) -->
     <div class="right">
       <!-- START Draw Toolbar -->
-      <og-toolbar-editor :draw="draw" />
+      <og-toolbar-editor />
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->

@@ -1,12 +1,19 @@
 export const useDrawStore = defineStore("DrawStore", () => {
-	const draw = useDraw();
+	const { map } = useMap();
+	const { draw, init: drawInit } = useDraw();
 
-	//If status is null
-	if (!draw.state.get("status")) {
-		draw.init();
-	}
+	const init = () => {
+		watch(map, (newVal, oldVal) => {
+			if (newVal && !oldVal) {
+				drawInit({
+					map,
+				});
+			}
+		});
+	};
 
 	return {
 		draw,
+		init,
 	};
 });

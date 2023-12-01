@@ -1,35 +1,17 @@
+// Import MapLibre
 import MapLibreGL from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawMapLibreGLAdapter,
-	TerraDrawSelectMode,
-	TerraDrawPolygonMode,
-	TerraDrawPointMode,
-	TerraDrawLineStringMode,
-	TerraDrawGreatCircleMode,
-	TerraDrawFreehandMode,
-	TerraDrawCircleMode,
-	TerraDrawRectangleMode,
-} from "terra-draw";
+let map = reactive(null);
+const config = reactive(new Map([["mapEleID", null]]));
+const state = reactive(new Map([["status", null]]));
 
-export function useDraw() {
-	const config = reactive(
-		new Map([
-			["map", null],
-			["lib", null],
-		]),
-	);
-
-	const state = reactive(new Map([["status", null]]));
-	const draw = reactive(null);
-
-	// Initialise Terra Draw
+export function useMap() {
+	// Initialise MapLibre
 	const init = (useConfig = {}) => {
 		//Required
-		if (!useConfig.map || !useConfig.lib) {
-			console.error("useDraw requires a map and lib");
+		if (!useConfig.mapEleID) {
+			console.error("useMap requires mapEleID");
 
 			return;
 		}
@@ -39,99 +21,44 @@ export function useDraw() {
 			// Iff allowable key
 			if (useConfig[key]) {
 				config.set(key, useConfig[key]);
+
+				console.debug(`useMap init: ${key} ${useConfig[key]}`);
 			}
 		});
 
-		console.debug("useDraw init: " + JSON.stringify(config));
-
-		// Initialize Terra Draw
-		const terraDraw = new TerraDraw({
-			adapter: new TerraDrawMapLibreGLAdapter({
-				lib: MapLibreGL,
-				map: mapLibreMap,
-				//coordinatePrecision: 9,
-			}),
-
-			// Modes
-			modes: [
-				//Select
-				new TerraDrawSelectMode({
-					// Mode features
-					flags: {
-						// polygon
-						polygon: {
-							feature: {
-								scaleable: true,
-								rotateable: true,
-								draggable: true,
-								coordinates: {
-									midpoints: true,
-									draggable: true,
-									deletable: true,
-								},
-							},
-						},
+		// Initialise MapLibre
+		map = new MapLibreGL.Map({
+			container: config.get("mapEleID"),
+			style: {
+				version: 8,
+				sources: {
+					"osm-tiles": {
+						type: "raster",
+						tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+						tileSize: 256,
+						attribution:
+							'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 					},
-				}),
-
-				// Polygon
-				new TerraDrawPolygonMode({
-					allowSelfIntersections: false,
-					pointerDistance: 30,
-				}),
-
-				// Point
-				new TerraDrawPointMode({
-					// The radius of the point
-					radius: 20,
-				}),
-
-				// Line String
-				new TerraDrawLineStringMode({
-					// The radius of the point
-					radius: 20,
-				}),
-
-				// Great Circle
-				new TerraDrawGreatCircleMode({
-					// The radius of the point
-					radius: 20,
-				}),
-
-				// Freehand
-				new TerraDrawFreehandMode({
-					// The radius of the point
-					radius: 20,
-				}),
-
-				// Circle
-				new TerraDrawCircleMode({
-					// The radius of the point
-					radius: 20,
-				}),
-
-				// Rectangle
-				new TerraDrawRectangleMode({
-					// The radius of the point
-					radius: 20,
-				}),
-			],
+				},
+				layers: [
+					{
+						id: "osm-tiles",
+						type: "raster",
+						source: "osm-tiles",
+					},
+				],
+			},
+			center: [0, 0],
+			zoom: 0,
+			minZoom: 1,
+			maxZoom: 20,
 		});
-
-		// Start drawing
-		draw.start();
-
-		// Set the mode to polygon
-		draw.setMode("polygon");
-
-		// Destructure terraDraw into draw
-		({ ...draw } = terraDraw);
 
 		state.set("status", "init");
 	};
 
 	return {
-		draw,
+		map,
 		state,
 		init,
 	};
