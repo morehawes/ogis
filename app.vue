@@ -1,26 +1,13 @@
 <script setup>
-// Import MapLibre
-import MapLibreGL from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-
-// Import Terra Draw
-import {
-  TerraDraw,
-  TerraDrawMapLibreGLAdapter,
-  TerraDrawSelectMode,
-  TerraDrawPolygonMode,
-  TerraDrawPointMode,
-  TerraDrawLineStringMode,
-  TerraDrawGreatCircleMode,
-  TerraDrawFreehandMode,
-  TerraDrawCircleMode,
-  TerraDrawRectangleMode,
-} from "terra-draw";
+const mapStore = useMapStore();
+const { map } = mapStore;
 
 const drawStore = useDrawStore();
-let { draw } = drawStore;
+const { draw } = drawStore;
 
-console.log(draw);
+console.log(map, draw);
+
+debugger;
 
 let ready = ref(false);
 
@@ -52,86 +39,6 @@ onMounted(() => {
     minZoom: 1,
     maxZoom: 20,
   });
-
-  // Initialize Terra Draw
-  draw.value = new TerraDraw({
-    adapter: new TerraDrawMapLibreGLAdapter({
-      lib: MapLibreGL,
-      map: mapLibreMap,
-      //coordinatePrecision: 9,
-    }),
-
-    // Modes
-    modes: [
-      //Select
-      new TerraDrawSelectMode({
-        // Mode features
-        flags: {
-          // polygon
-          polygon: {
-            feature: {
-              scaleable: true,
-              rotateable: true,
-              draggable: true,
-              coordinates: {
-                midpoints: true,
-                draggable: true,
-                deletable: true,
-              },
-            },
-          },
-        },
-      }),
-
-      // Polygon
-      new TerraDrawPolygonMode({
-        allowSelfIntersections: false,
-        pointerDistance: 30,
-      }),
-
-      // Point
-      new TerraDrawPointMode({
-        // The radius of the point
-        radius: 20,
-      }),
-
-      // Line String
-      new TerraDrawLineStringMode({
-        // The radius of the point
-        radius: 20,
-      }),
-
-      // Great Circle
-      new TerraDrawGreatCircleMode({
-        // The radius of the point
-        radius: 20,
-      }),
-
-      // Freehand
-      new TerraDrawFreehandMode({
-        // The radius of the point
-        radius: 20,
-      }),
-
-      // Circle
-      new TerraDrawCircleMode({
-        // The radius of the point
-        radius: 20,
-      }),
-
-      // Rectangle
-      new TerraDrawRectangleMode({
-        // The radius of the point
-        radius: 20,
-      }),
-    ],
-  });
-
-  // Start drawing
-  draw.value.start();
-
-  // Set the mode to polygon
-  draw.value.setMode("polygon");
 
   ready.value = true;
 });
