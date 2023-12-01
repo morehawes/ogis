@@ -1,9 +1,12 @@
-export const useDrawStore = defineStore('DrawStore', () => {
-	
-	const joe = ref('test')
+export const useDrawStore = defineStore("DrawStore", () => {
+	const draw = useDraw();
 
-	return {
-		joe
+	//If status is null
+	if (!draw.state.get("status")) {
+		draw.init();
 	}
 
+	return {
+		draw,
+	};
 });

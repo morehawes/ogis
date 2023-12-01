@@ -18,10 +18,10 @@ import {
 } from "terra-draw";
 
 const drawStore = useDrawStore();
+let { draw } = drawStore;
 
+console.log(draw);
 
-
-let draw = ref(null);
 let ready = ref(false);
 
 onMounted(() => {
@@ -124,7 +124,6 @@ onMounted(() => {
         // The radius of the point
         radius: 20,
       }),
-
     ],
   });
 
@@ -138,8 +137,8 @@ onMounted(() => {
 });
 
 onMounted(() => {
-  console.log(drawStore.joe)
-})
+  console.log(drawStore.joe);
+});
 </script>
 
 <template>

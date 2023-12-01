@@ -1,16 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   imports: {
-    dirs: ['stores'],
-  },  
+    dirs: ["stores"],
+  },
   modules: [
     [
-      '@pinia/nuxt',
+      "@pinia/nuxt",
       {
-        autoImports: ['defineStore'],
-      }
-    ]
-  ],  
+        autoImports: ["defineStore"],
+      },
+    ],
+  ],
 });
