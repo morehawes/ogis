@@ -2,24 +2,23 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-export function useMap() {
+export function useMap(useConfig = {}) {
 	const map = ref(null);
-
-	const config = ref({ mapEleID: null });
 	const state = ref({ status: null });
 
-	// Initialise MapLibre
-	const init = (useConfig = {}) => {
-		//Required
-		if (!useConfig.mapEleID) {
-			console.error("useMap requires mapEleID");
+	const config = ref({ mapEleID: null });
 
-			return;
-		}
+	//Required
+	if (!useConfig.mapEleID) {
+		console.error("useMap requires mapEleID");
 
-		// Merge useConfig into config
-		config.value = { ...config.value, ...useConfig };
+		return;
+	}
 
+	// Merge useConfig into config
+	config.value = { ...config.value, ...useConfig };
+
+	onMounted(() => {
 		// Initialise MapLibre
 		map.value = new MapLibreGL.Map({
 			container: config.value.mapEleID,
@@ -49,11 +48,10 @@ export function useMap() {
 		});
 
 		state.value.status = "init";
-	};
+	});
 
 	return {
 		map,
 		state,
-		init,
 	};
 }

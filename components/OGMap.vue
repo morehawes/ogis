@@ -1,11 +1,13 @@
 <script setup>
+const { init, state } = useMapStore();
+
 onMounted(() => {
-	const { init } = useMapStore();
 	init();
 });
 </script>
 
 <template>
+	{{ state.status }}
 	<div id="map" />
 </template>
 

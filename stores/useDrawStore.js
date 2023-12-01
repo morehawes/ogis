@@ -1,17 +1,16 @@
 export const useDrawStore = defineStore("DrawStore", () => {
-	const { map } = useMap();
-	const { draw, init: drawInit } = useDraw();
+	const { draw } = useDraw();
 
 	const state = ref({
 		status: null,
 	});
 
 	const init = () => {
-		drawInit({
-			map: map.value,
-		});
-
 		state.value.status = "init";
+
+		setTimeout(() => {
+			state.value.status = "tick";
+		}, 1000);
 	};
 
 	return {

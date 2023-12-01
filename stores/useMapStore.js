@@ -1,7 +1,5 @@
 export const useMapStore = defineStore("MapStore", () => {
-	const { map, init: mapInit } = useMap();
-
-	const config = ref({
+	const { map } = useMap({
 		mapEleID: "map",
 	});
 
@@ -10,11 +8,11 @@ export const useMapStore = defineStore("MapStore", () => {
 	});
 
 	const init = () => {
-		mapInit({
-			mapEleID: config.value.mapEleID,
-		});
-
 		state.value.status = "init";
+
+		setTimeout(() => {
+			state.value.status = "tick";
+		}, 1000);
 	};
 
 	return {

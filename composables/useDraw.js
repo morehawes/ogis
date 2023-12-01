@@ -17,31 +17,19 @@ import {
 export function useDraw() {
 	const draw = ref(null);
 
-	const config = ref({ map: null });
+	const { map } = storeToRefs(useMapStore());
+
 	const state = ref({ status: null });
 
 	// Initialise Terra Draw
-	const init = (useConfig = {}) => {
-		//Required
-		if (!useConfig.map) {
-			return;
-		} else {
-			console.debug(`useDraw init: ${useConfig.map}`);
-		}
-
-		// Merge useConfig into config
-		config.value.forEach((value, key) => {
-			// Iff allowable key
-			if (useConfig[key]) {
-				config.value.key = useConfig[key];
-			}
-		});
+	onMounted(() => {
+		console.debug("useDraw onMounted");
 
 		// Initialize Terra Draw
 		draw.value = new TerraDraw({
 			adapter: new TerraDrawMapLibreGLAdapter({
 				lib: MapLibreGL,
-				map: config.value.map,
+				map: map.value,
 				//coordinatePrecision: 9,
 			}),
 
@@ -118,11 +106,10 @@ export function useDraw() {
 		draw.value.setMode("polygon");
 
 		state.value.status = "init";
-	};
+	});
 
 	return {
 		draw,
-		init,
 		state,
 	};
 }
