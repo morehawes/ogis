@@ -6,7 +6,7 @@ const props = defineProps({
 	},
 	size: {
 		type: String,
-		default: "24",
+		default: "32",
 	},
 	color: {
 		type: String,
@@ -18,7 +18,13 @@ const props = defineProps({
 	},
 });
 
-const iconNames = ref(["polygon", "polyline", "marker"]);
+const iconNames = ref(["polygon", "polyline", "marker", "circle", "rectangle","freehand", "clear", "select", "greatcircle"]);
+
+
+
+
+
+
 
 const iconName = computed(() => {
 	if (iconNames.value.indexOf(props.name) > -1) {

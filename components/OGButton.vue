@@ -27,6 +27,7 @@ const props = defineProps({
 <style lang="less">
 .og-button {
 	display: inline-block;
+	padding: 0.5rem;
 	border: 1px solid blue;
 	img {
 		vertical-align: middle;
