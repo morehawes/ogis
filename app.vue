@@ -1,5 +1,5 @@
 <script setup>
-// Import the MapLibre
+// Import MapLibre
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -21,8 +21,7 @@ let draw = ref(null);
 let ready = ref(false);
 
 onMounted(() => {
-  // Initialize a new MapLibre map, providing the id of the div to display the map
-  // Set the initial center (longitude, latitude) and the zoom level
+  // Initialize map
   const mapLibreMap = new MapLibreGL.Map({
     container: "map",
     style: {
@@ -50,16 +49,11 @@ onMounted(() => {
     maxZoom: 20,
   });
 
-  // Instantiate the TerraDraw API with a MapLibre adapter and custom modes
-  draw = new TerraDraw({
+  // Initialize Terra Draw
+  draw.value = new TerraDraw({
     adapter: new TerraDrawMapLibreGLAdapter({
-      // The MapLibre library object
       lib: MapLibreGL,
-
-      // The MapLibre map object we created
       map: mapLibreMap,
-
-      // The decimal precision of the coordinates created
       //coordinatePrecision: 9,
     }),
 
@@ -67,9 +61,9 @@ onMounted(() => {
     modes: [
       //Select
       new TerraDrawSelectMode({
+        // Mode features
         flags: {
-          // Following flags determine what you can do in
-          // select mode for features of a given mode - in this case polygon
+          // polygon
           polygon: {
             feature: {
               scaleable: true,
@@ -85,7 +79,7 @@ onMounted(() => {
         },
       }),
 
-      // Poly
+      // Polygon
       new TerraDrawPolygonMode({
         allowSelfIntersections: false,
         pointerDistance: 30,
@@ -120,14 +114,21 @@ onMounted(() => {
         // The radius of the point
         radius: 20,
       }),
+
+      // Rectangle
+      new TerraDrawRectangleMode({
+        // The radius of the point
+        radius: 20,
+      }),
+    
     ],
   });
 
   // Start drawing
-  draw.start();
+  draw.value.start();
 
   // Set the mode to polygon
-  draw.setMode("polygon");
+  draw.value.setMode("polygon");
 
   ready.value = true;
 });

@@ -12,7 +12,7 @@ console.log(props.draw);
 <template>
 	<div class="og-toolbar">
 		<og-button text="Marker" icon="marker" @click="draw.setMode('point')" />
-		<og-button text="Line" icon="polyline" @click="draw.setMode('polyline')" />
+		<og-button text="Line" icon="polyline" @click="draw.setMode('linestring')" />
 		<og-button text="Polygon" icon="polygon" @click="draw.setMode('polygon')" />
 		<og-button text="Circle" icon="circle" @click="draw.setMode('circle')" />
 		<og-button text="Rectangle" icon="rectangle" @click="draw.setMode('rectangle')" />
