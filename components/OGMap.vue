@@ -1,7 +1,7 @@
 <script setup>
 onMounted(() => {
-	const mapStore = useMapStore();
-	mapStore.init();
+	const { init } = useMapStore();
+	init();
 });
 </script>
 

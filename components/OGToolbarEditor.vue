@@ -1,13 +1,17 @@
 <script setup>
-const drawStore = useDrawStore();
-drawStore.init();
+const { init, draw, state } = useDrawStore();
+const drawReady = computed(() => {
+	return state.get("status");
+});
 
-const { draw } = drawStore;
+onMounted(() => {
+	init();
+});
 </script>
 
 <template>
-	<div class="og-toolbar">
-		<og-button text="Marker" icon="marker" @click="setMode('point')" />
+	<div class="og-toolbar" v-show="drawReady">
+		<og-button text="Marker" icon="marker" @click="draw.setMode('point')" />
 		<og-button
 			text="Line"
 			icon="polyline"

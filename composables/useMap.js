@@ -2,11 +2,11 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-let map = reactive(null);
-const config = reactive(new Map([["mapEleID", null]]));
-const state = reactive(new Map([["status", null]]));
-
 export function useMap() {
+	let map = reactive(null);
+	const config = reactive(new Map([["mapEleID", null]]));
+	const state = reactive(new Map([["status", null]]));
+
 	// Initialise MapLibre
 	const init = (useConfig = {}) => {
 		//Required

@@ -14,18 +14,18 @@ import {
 	TerraDrawRectangleMode,
 } from "terra-draw";
 
-const config = reactive(new Map([["map", null]]));
-const state = reactive(new Map([["status", null]]));
-let draw = reactive(null);
-
 export function useDraw() {
+	const config = reactive(new Map([["map", null]]));
+	const state = reactive(new Map([["status", null]]));
+	let draw = reactive(null);
+
 	// Initialise Terra Draw
 	const init = (useConfig = {}) => {
 		//Required
 		if (!useConfig.map) {
-			console.error("useDraw requires a map");
-
 			return;
+		} else {
+			console.debug(`useDraw init: ${useConfig.map}`);
 		}
 
 		// Merge useConfig into config
@@ -110,9 +110,6 @@ export function useDraw() {
 			],
 		});
 
-		console.debug("useDraw init ");
-		console.debug(draw);
-
 		// Start drawing
 		draw.start();
 
@@ -125,5 +122,6 @@ export function useDraw() {
 	return {
 		draw,
 		init,
+		state,
 	};
 }
