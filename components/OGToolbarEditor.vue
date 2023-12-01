@@ -1,8 +1,13 @@
 <script setup>
-const { init, draw, state } = useDrawStore();
+const { init } = useDrawStore();
+const { draw, state } = storeToRefs(useDrawStore());
 
 onMounted(() => {
 	init();
+
+	setTimeout(() => {
+		state.value.status = "joetest";
+	}, 1000);
 });
 </script>
 
