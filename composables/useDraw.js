@@ -39,11 +39,26 @@ export function useDraw() {
 				new TerraDrawSelectMode({
 					// Mode features
 					flags: {
-						// polygon
+						arbitary: {
+							feature: {},
+						},
 						polygon: {
 							feature: {
-								scaleable: true,
+								draggable: true,
 								rotateable: true,
+								scaleable: true,
+								coordinates: {
+									midpoints: true,
+									draggable: true,
+									deletable: true,
+								},
+							},
+						},
+						// freehand: {
+						// 	feature: { draggable: true, coordinates: {} },
+						// },
+						linestring: {
+							feature: {
 								draggable: true,
 								coordinates: {
 									midpoints: true,
@@ -52,6 +67,22 @@ export function useDraw() {
 								},
 							},
 						},
+						// circle: {
+						// 	feature: {
+						// 		draggable: true,
+						// 	},
+						// },
+						point: {
+							feature: {
+								draggable: true,
+							},
+						},
+					},
+					styles: {
+						selectedPolygonColor: "#222222", // Any hex color you like
+						selectedPolygonFillOpacity: 0.7, // 0 - 1
+						selectedPolygonOutlineColor: "#333333", // Any hex color you like
+						selectedPolygonOutlineWidth: 2, // Integer
 					},
 				}),
 
@@ -59,12 +90,23 @@ export function useDraw() {
 				new TerraDrawPolygonMode({
 					allowSelfIntersections: false,
 					pointerDistance: 30,
+					styles: {
+						fillColor: "red",
+						fillOpacity: 0.6,
+						outlineColor: "#000",
+						polygonOutlineWidth: 2,
+					},
 				}),
 
 				// Point
 				new TerraDrawPointMode({
 					// The radius of the point
-					radius: 20,
+					styles: {
+						pointColor: "rgba(0, 0, 0, 0.5)",
+						pointWidth: 5,
+						pointOutlineColor: "red",
+						pointOutlineWidth: 2,
+					},
 				}),
 
 				// Line String
@@ -72,8 +114,10 @@ export function useDraw() {
 					// The radius of the point
 					radius: 20,
 					styles: {
-						lineStringColor: "#000",
-						lineStringWidth: 5,
+						lineStringWidth: 3,
+						lineStringColor: "rgba(155, 255, 155, 0.5)",
+
+						// zIndex: number;
 					},
 				}),
 
@@ -107,7 +151,7 @@ export function useDraw() {
 		draw.value.start();
 
 		// Set the mode to polygon
-		draw.value.setMode("polygon");
+		draw.value.setMode("select");
 
 		state.value.status = "init";
 	});
