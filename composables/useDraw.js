@@ -71,31 +71,35 @@ export function useDraw() {
 				new TerraDrawLineStringMode({
 					// The radius of the point
 					radius: 20,
+					styles: {
+						lineStringColor: "#000",
+						lineStringWidth: 5,
+					},
 				}),
 
 				// Great Circle
-				new TerraDrawGreatCircleMode({
-					// The radius of the point
-					radius: 20,
-				}),
+				// new TerraDrawGreatCircleMode({
+				// 	// The radius of the point
+				// 	radius: 20,
+				// }),
 
-				// Freehand
-				new TerraDrawFreehandMode({
-					// The radius of the point
-					radius: 20,
-				}),
+				// // Freehand
+				// new TerraDrawFreehandMode({
+				// 	// The radius of the point
+				// 	radius: 20,
+				// }),
 
-				// Circle
-				new TerraDrawCircleMode({
-					// The radius of the point
-					radius: 20,
-				}),
+				// // Circle
+				// new TerraDrawCircleMode({
+				// 	// The radius of the point
+				// 	radius: 20,
+				// }),
 
-				// Rectangle
-				new TerraDrawRectangleMode({
-					// The radius of the point
-					radius: 20,
-				}),
+				// // Rectangle
+				// new TerraDrawRectangleMode({
+				// 	// The radius of the point
+				// 	radius: 20,
+				// }),
 			],
 		});
 

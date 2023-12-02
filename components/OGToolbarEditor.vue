@@ -16,7 +16,7 @@ onMounted(() => {
 			@click="draw.setMode('linestring')"
 		/>
 		<og-button text="Polygon" icon="polygon" @click="draw.setMode('polygon')" />
-		<og-button text="Circle" icon="circle" @click="draw.setMode('circle')" />
+		<!-- 		<og-button text="Circle" icon="circle" @click="draw.setMode('circle')" />
 		<og-button
 			text="Rectangle"
 			icon="rectangle"
@@ -31,7 +31,7 @@ onMounted(() => {
 			text="Great Circle"
 			icon="greatcircle"
 			@click="draw.setMode('greatcircle')"
-		/>
+		/> -->
 		<og-button text="Select" icon="select" @click="draw.setMode('select')" />
 		<og-button text="Clear" icon="clear" @click="draw.clear()" />
 	</div>
