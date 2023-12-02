@@ -7,7 +7,6 @@ onMounted(() => {
 </script>
 
 <template>
-	{{ state.status }}
 	<div id="map" />
 </template>
 

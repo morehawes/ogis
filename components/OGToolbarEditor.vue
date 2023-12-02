@@ -8,8 +8,6 @@ onMounted(() => {
 </script>
 
 <template>
-	{{ state.status }}
-
 	<div class="og-toolbar" v-show="state.status">
 		<og-button text="Marker" icon="marker" @click="draw.setMode('point')" />
 		<og-button
