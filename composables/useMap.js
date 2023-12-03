@@ -2,6 +2,9 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
+// import L from "leaflet";
+// import "leaflet/dist/leaflet.css";
+
 export function useMap(useConfig = {}) {
 	const map = ref(null);
 	const state = ref({ status: null });
@@ -19,6 +22,21 @@ export function useMap(useConfig = {}) {
 	config.value = { ...config.value, ...useConfig };
 
 	onMounted(() => {
+		// Leaflet
+		// map.value = L.map(config.value.mapEleID, {
+		// 	center: [50.702166, -127.844853],
+		// 	zoom: 13, // starting zoom,
+		// 	minZoom: 3,
+		// 	maxZoom: 20,
+		// 	tapTolerance: 10,
+		// });
+
+		// L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+		// 	maxZoom: 19,
+		// 	attribution:
+		// 		'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		// }).addTo(map.value);
+
 		// Initialise MapLibre
 		map.value = new MapLibreGL.Map({
 			container: config.value.mapEleID,

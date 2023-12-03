@@ -1,9 +1,11 @@
 import MapLibreGL from "maplibre-gl";
+// import * as L from "leaflet";
 
 // Import Terra Draw
 import {
 	TerraDraw,
 	TerraDrawMapLibreGLAdapter,
+	TerraDrawLeafletAdapter,
 	TerraDrawSelectMode,
 	TerraDrawPolygonMode,
 	TerraDrawPointMode,
@@ -21,19 +23,25 @@ export function useDraw() {
 
 	const state = ref({ status: null });
 
-	// Create the adapter
-	const drawAdapter = new TerraDrawMapLibreGLAdapter({
-		lib: MapLibreGL,
-		map: map.value,
-	});
-
 	// Initialise Terra Draw
 	onMounted(() => {
 		console.debug("useDraw onMounted");
 
+		//Create Leaflet adapter
+		// const leafletDrawAdapter = new TerraDrawLeafletAdapter({
+		// 	lib: L,
+		// 	map: map.value,
+		// });
+
+		// Create the adapter
+		const libreDrawAdapter = new TerraDrawMapLibreGLAdapter({
+			lib: MapLibreGL,
+			map: map.value,
+		});
+
 		// Initialize Terra Draw
 		draw.value = new TerraDraw({
-			adapter: drawAdapter,
+			adapter: libreDrawAdapter,
 
 			// Modes
 			modes: [
