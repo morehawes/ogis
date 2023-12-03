@@ -37,6 +37,10 @@ export function useDraw() {
 			modes: [
 				//Select
 				new TerraDrawSelectMode({
+					// dragEventThrottle?: number;
+					// keyEvents?: null | TerraDrawSelectModeKeyEvents;
+					// pointerDistance?: number;
+
 					// Mode features
 					flags: {
 						arbitary: {
@@ -90,6 +94,8 @@ export function useDraw() {
 				new TerraDrawPolygonMode({
 					allowSelfIntersections: false,
 					pointerDistance: 30,
+					// keyEvents?: null | TerraDrawPolygonModeKeyEvents;
+					//      snapping?: boolean;
 					styles: {
 						fillColor: "red",
 						fillOpacity: 0.6,
@@ -111,8 +117,12 @@ export function useDraw() {
 
 				// Line String
 				new TerraDrawLineStringMode({
-					// The radius of the point
-					radius: 20,
+					// allowSelfIntersections?: boolean;
+					// keyEvents?: null | TerraDrawLineStringModeKeyEvents;
+					// pointerDistance?: number;
+					// snapping?: boolean;
+					// styles?: Partial<LineStringStyling>;
+
 					styles: {
 						lineStringWidth: 3,
 						lineStringColor: "rgba(155, 255, 155, 0.5)",
