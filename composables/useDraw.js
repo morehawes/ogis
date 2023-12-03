@@ -21,17 +21,19 @@ export function useDraw() {
 
 	const state = ref({ status: null });
 
+	// Create the adapter
+	const drawAdapter = new TerraDrawMapLibreGLAdapter({
+		lib: MapLibreGL,
+		map: map.value,
+	});
+
 	// Initialise Terra Draw
 	onMounted(() => {
 		console.debug("useDraw onMounted");
 
 		// Initialize Terra Draw
 		draw.value = new TerraDraw({
-			adapter: new TerraDrawMapLibreGLAdapter({
-				lib: MapLibreGL,
-				map: map.value,
-				//coordinatePrecision: 9,
-			}),
+			adapter: drawAdapter,
 
 			// Modes
 			modes: [
@@ -106,7 +108,6 @@ export function useDraw() {
 
 				// Point
 				new TerraDrawPointMode({
-					// The radius of the point
 					styles: {
 						pointColor: "rgba(0, 0, 0, 0.5)",
 						pointWidth: 5,
