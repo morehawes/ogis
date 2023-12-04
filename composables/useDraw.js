@@ -1,6 +1,3 @@
-import MapLibreGL from "maplibre-gl";
-// import * as L from "leaflet";
-
 // Import Terra Draw
 import {
 	TerraDraw,
@@ -35,7 +32,6 @@ export function useDraw() {
 
 		// Create the adapter
 		const libreDrawAdapter = new TerraDrawMapLibreGLAdapter({
-			lib: MapLibreGL,
 			map: map.value,
 		});
 
