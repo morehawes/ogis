@@ -41,8 +41,8 @@ export function useMap(useConfig = {}) {
 					},
 				],
 			},
-			center: [-1.8262525510375465, 51.179026604924545],
-			zoom: 16,
+			center: [-127.865839, 50.704503],
+			zoom: 12,
 			minZoom: 1,
 			maxZoom: 20,
 		});
