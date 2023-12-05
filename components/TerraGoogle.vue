@@ -14,7 +14,7 @@ const id = "google-map";
 const lng = -1.826252;
 const lat = 51.179026;
 const zoom = 17;
-const apiKey = "AIzaSyD5hio48OlLddo44UcyVELJgvZGXr6LN2E";
+const apiKey = "";
 
 onMounted(() => {
 	const loader = new Loader({

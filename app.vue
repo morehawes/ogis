@@ -15,6 +15,8 @@
     <terra-openlayers />
 
     <terra-google />
+
+    <terra-mapbox />
     <!-- </div> -->
 
     <!-- START Right (33.33% width) -->
