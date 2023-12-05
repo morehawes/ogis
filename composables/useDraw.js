@@ -2,7 +2,6 @@
 import {
 	TerraDraw,
 	TerraDrawMapLibreGLAdapter,
-	TerraDrawLeafletAdapter,
 	TerraDrawSelectMode,
 	TerraDrawPolygonMode,
 	TerraDrawPointMode,
@@ -23,12 +22,6 @@ export function useDraw() {
 	// Initialise Terra Draw
 	onMounted(() => {
 		console.debug("useDraw onMounted");
-
-		//Create Leaflet adapter
-		// const leafletDrawAdapter = new TerraDrawLeafletAdapter({
-		// 	lib: L,
-		// 	map: map.value,
-		// });
 
 		// Create the adapter
 		const libreDrawAdapter = new TerraDrawMapLibreGLAdapter({

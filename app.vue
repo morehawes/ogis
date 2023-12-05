@@ -4,37 +4,23 @@
   <!-- START Container -->
   <div class="container">
     <!-- START Left (66.66% width) -->
-    <!-- <div class=""> -->
-    <!-- START Map -->
-    <!-- <og-map /> -->
-
-    <terra-leaflet />
-
-    <terra-maplibre />
-
-    <terra-openlayers />
-
-    <terra-google />
-
-    <terra-mapbox />
-    <!-- </div> -->
+    <div class="left">
+      <!-- START Map -->
+      <og-map />
+    </div>
 
     <!-- START Right (33.33% width) -->
-    <!-- <div class=""> -->
-    <!-- START Draw Toolbar -->
-    <!-- <og-toolbar-editor /> -->
-    <!-- END Toolbar -->
-    <!-- </div> -->
+    <div class="right">
+      <!-- START Draw Toolbar -->
+      <og-toolbar-editor />
+      <!-- END Toolbar -->
+    </div>
     <!-- END Right -->
   </div>
   <!-- END Container -->
 </template>
 
 <style lang="less">
-.map {
-  width: 100%;
-  height: 100%;
-}
 body {
   margin: 0;
   padding: 0;
