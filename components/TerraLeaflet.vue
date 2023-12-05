@@ -28,6 +28,7 @@ onMounted(() => {
 			'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 	}).addTo(map);
 
+	// Create Terra Draw
 	const draw = new TerraDraw({
 		adapter: new TerraDrawLeafletAdapter({
 			lib: L,
@@ -36,6 +37,7 @@ onMounted(() => {
 		modes: [new TerraDrawFreehandMode()],
 	});
 
+	// Start drawing
 	draw.start();
 	draw.setMode("freehand");
 });

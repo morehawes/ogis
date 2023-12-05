@@ -1,12 +1,12 @@
 <script setup>
-//Import Leaflet
-import * as L from "leaflet";
-import "leaflet/dist/leaflet.css";
+// Import MapLibre
+import MapLibreGL from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 // Import Terra Draw
 import {
 	TerraDraw,
-	TerraDrawLeafletAdapter,
+	TerraDrawMapLibreGLAdapter,
 	TerraDrawFreehandMode,
 } from "terra-draw";
 
@@ -18,24 +18,41 @@ const zoom = 16;
 
 onMounted(() => {
 	// Create Map
-	const map = L.map(id, {
-		center: [lat, lng],
+	const map = new MapLibreGL.Map({
+		container: id,
+		style: {
+			version: 8,
+			sources: {
+				"osm-tiles": {
+					type: "raster",
+					tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+					tileSize: 256,
+					attribution:
+						'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+				},
+			},
+			layers: [
+				{
+					id: "osm-tiles",
+					type: "raster",
+					source: "osm-tiles",
+				},
+			],
+		},
+		center: [lng, lat],
 		zoom: zoom,
 	});
 
-	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-		attribution:
-			'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	}).addTo(map);
-
+	// Create Terra Draw
 	const draw = new TerraDraw({
-		adapter: new TerraDrawLeafletAdapter({
-			lib: L,
+		adapter: new TerraDrawMapLibreGLAdapter({
+			lib: MapLibreGL,
 			map,
 		}),
 		modes: [new TerraDrawFreehandMode()],
 	});
 
+	// Start drawing
 	draw.start();
 	draw.setMode("freehand");
 });
