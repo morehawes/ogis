@@ -6,13 +6,15 @@
     <!-- START Left (66.66% width) -->
     <div class="left">
       <!-- START Map -->
-      <og-map />
+      <!-- <og-map /> -->
+
+      <terra-leaflet />
     </div>
 
     <!-- START Right (33.33% width) -->
     <div class="right">
       <!-- START Draw Toolbar -->
-      <og-toolbar-editor />
+      <!-- <og-toolbar-editor /> -->
       <!-- END Toolbar -->
     </div>
     <!-- END Right -->
