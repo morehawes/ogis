@@ -11,7 +11,7 @@ import {
 } from "terra-draw";
 
 // Configuration
-const id = "leaflet-map";
+const id = "maplibre-map";
 const lng = -1.826252;
 const lat = 51.179026;
 const zoom = 16;
@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="map" id="leaflet-map"></div>
+	<div class="map" id="maplibre-map"></div>
 </template>
 
 <style></style>

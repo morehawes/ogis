@@ -2,17 +2,19 @@
 
 <template>
   <!-- START Container -->
-  <div class="container">
+  <div class="">
     <!-- START Left (66.66% width) -->
-    <div class="left">
+    <div class="">
       <!-- START Map -->
       <!-- <og-map /> -->
 
       <terra-leaflet />
+
+      <terra-maplibre />
     </div>
 
     <!-- START Right (33.33% width) -->
-    <div class="right">
+    <div class="">
       <!-- START Draw Toolbar -->
       <!-- <og-toolbar-editor /> -->
       <!-- END Toolbar -->
@@ -23,6 +25,10 @@
 </template>
 
 <style lang="less">
+.map {
+  width: 100%;
+  height: 300px;
+}
 body {
   margin: 0;
   padding: 0;
