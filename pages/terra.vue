@@ -13,7 +13,7 @@
 
 		<terra-mapbox />
 
-		<terra-esri />
+		<terra-arcgis />
 	</div>
 	<!-- END Container -->
 	<NuxtPage />
