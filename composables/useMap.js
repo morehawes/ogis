@@ -42,7 +42,7 @@ export function useMap(useConfig = {}) {
 				],
 			},
 			center: [-127.865839, 50.704503],
-			zoom: 12,
+			zoom: 10,
 			minZoom: 1,
 			maxZoom: 20,
 		});
