@@ -10,7 +10,12 @@ export default defineNuxtConfig({
         from: "terra-draw",
         imports: [
           "TerraDraw",
+
+          //Adapters
           "TerraDrawMapLibreGLAdapter",
+          "TerraDrawOpenLayersAdapter",
+
+          //Modes
           "TerraDrawFreehandMode",
           "TerraDrawLineStringMode",
           "TerraDrawCircleMode",

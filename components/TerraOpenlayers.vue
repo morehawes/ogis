@@ -11,18 +11,12 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { fromLonLat, toLonLat } from "ol/proj";
 import "ol/ol.css";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawOpenLayersAdapter,
-	TerraDrawFreehandMode,
-} from "terra-draw";
+const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+const { modes } = useTerraStore();
 
-// Configuration
-const id = "openlayers-map";
-const lng = -1.826252;
-const lat = 51.179026;
-const zoom = 17;
+const state = reactive({
+	features: [],
+});
 
 onMounted(() => {
 	const map = new Map({
@@ -31,10 +25,10 @@ onMounted(() => {
 				source: new OSM(),
 			}),
 		],
-		target: id,
+		target: "openlayers-map",
 		view: new View({
-			center: fromLonLat([lng, lat]),
-			zoom: zoom,
+			center: fromLonLat([lng.value, lat.value]),
+			zoom: zoom.value,
 		}),
 		controls: [],
 	});
@@ -57,18 +51,26 @@ onMounted(() => {
 				map,
 				coordinatePrecision: 9,
 			}),
-			modes: [new TerraDrawFreehandMode()],
+			modes,
 		});
-
 		// Start drawing
 		draw.start();
-		draw.setMode("freehand");
+
+		// Watch for changes
+		watch(activeMode, () => {
+			draw.setMode(activeMode.value);
+		});
+		// draw.setMode(activeMode.value);
 	});
 });
 </script>
 
 <template>
-	<div class="map" id="openlayers-map"></div>
+	<div class="wrap">
+		<terra-map-menu title="Open Layers" :features="state.features" />
+
+		<div class="map" id="openlayers-map"></div>
+	</div>
 </template>
 
 <style></style>

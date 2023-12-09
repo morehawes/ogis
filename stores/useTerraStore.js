@@ -14,11 +14,15 @@ export const useTerraStore = defineStore("terra", () => {
 		// }),
 	];
 
+	const lng = ref(-1.826252);
+	const lat = ref(51.179026);
+	const zoom = ref(16);
+
 	const activeMode = ref("select");
 
 	function changeMode(mode) {
 		activeMode.value = mode;
 	}
 
-	return { modes, activeMode, changeMode };
+	return { lat, lng, zoom, modes, activeMode, changeMode };
 });

@@ -4,13 +4,7 @@ import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const { modes } = useTerraStore();
-const { activeMode } = storeToRefs(useTerraStore());
-
-// Configuration
-const id = "maplibre-map";
-const lng = -1.826252;
-const lat = 51.179026;
-const zoom = 16;
+const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
 
 const state = reactive({
 	features: [],
@@ -19,7 +13,7 @@ const state = reactive({
 onMounted(() => {
 	// Create Map
 	const map = new MapLibreGL.Map({
-		container: id,
+		container: "maplibre-map",
 		style: {
 			version: 8,
 			sources: {
@@ -39,8 +33,8 @@ onMounted(() => {
 				},
 			],
 		},
-		center: [lng, lat],
-		zoom: zoom,
+		center: [lng.value, lat.value],
+		zoom: zoom.value,
 	});
 
 	// Create Terra Draw
