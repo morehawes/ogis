@@ -1,10 +1,21 @@
 <script setup></script>
 
 <template>
-  <div>
-    <!-- Markup shared across all pages, ex: NavBar -->
+  <div id="app">
     <NuxtPage />
   </div>
 </template>
 
-<style></style>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+
+  #app {
+  }
+}
+</style>
