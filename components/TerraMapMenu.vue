@@ -1,15 +1,10 @@
-<!--
-	<terra-map-menu title="MapLibre" :modes="modes" />
--->
 <script setup>
+const terraStore = useTerraStore();
+
 const props = defineProps({
 	title: {
 		type: String,
 		default: "",
-	},
-	modes: {
-		type: Array,
-		default: [],
 	},
 	features: {
 		type: Array,
@@ -35,7 +30,7 @@ onMounted(() => {
 			<div class="mode-select">
 				<select @change="$emit('update:activeMode', $event.target.value)">
 					<option
-						v-for="(mode, index) in modes"
+						v-for="(mode, index) in terraStore.modes"
 						:key="index"
 						:value="mode.mode"
 						:selected="mode.mode === activeMode"

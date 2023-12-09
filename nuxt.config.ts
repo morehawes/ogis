@@ -4,6 +4,23 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   imports: {
     dirs: ["stores"],
+    presets: [
+      {
+        from: "terra-draw",
+        imports: [
+          "TerraDraw",
+          "TerraDrawMapLibreGLAdapter",
+          "TerraDrawFreehandMode",
+          "TerraDrawLineStringMode",
+          "TerraDrawCircleMode",
+          "TerraDrawGreatCircleMode",
+          "TerraDrawPointMode",
+          "TerraDrawPolygonMode",
+          "TerraDrawRectangleMode",
+          "TerraDrawSelectMode",
+        ],
+      },
+    ],
   },
   modules: [
     [

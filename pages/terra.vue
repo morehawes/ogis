@@ -1,7 +1,10 @@
 <script setup>
 const state = reactive(
 	new Map([
-		["activeMaps", new Set(["leaflet", "maplibre", "openlayers", "google"])],
+		[
+			"activeMaps",
+			new Set(["leaflet", "maplibre", "openlayers", "google", "mapbox"]),
+		],
 	]),
 );
 
@@ -58,6 +61,15 @@ const isActive = (map) => {
 					@click="toggleMap('google')"
 				>
 					Google Maps
+				</div>
+
+				<!-- Mapbox -->
+				<div
+					class="toggle-mapbox"
+					:class="{ active: isActive('mapbox') }"
+					@click="toggleMap('mapbox')"
+				>
+					Mapbox
 				</div>
 			</div>
 		</div>

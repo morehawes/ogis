@@ -3,20 +3,7 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawMapLibreGLAdapter,
-	TerraDrawFreehandMode,
-	TerraDrawLineStringMode,
-	TerraDrawCircleMode,
-	TerraDrawGreatCircleMode,
-	TerraDrawPointMode,
-	TerraDrawPolygonMode,
-	TerraDrawRectangleMode,
-	TerraDrawSelectMode,
-	// TerraDrawRenderMode,
-} from "terra-draw";
+const terraStore = useTerraStore();
 
 // Configuration
 const id = "maplibre-map";
@@ -25,19 +12,6 @@ const lat = 51.179026;
 const zoom = 16;
 
 let draw = null;
-const modes = [
-	new TerraDrawFreehandMode(),
-	new TerraDrawLineStringMode(),
-	new TerraDrawCircleMode(),
-	new TerraDrawGreatCircleMode(),
-	new TerraDrawPointMode(),
-	new TerraDrawPolygonMode(),
-	new TerraDrawRectangleMode(),
-	new TerraDrawSelectMode(),
-	// new TerraDrawRenderMode({
-	// 	modeName: "render",
-	// }),
-];
 
 const state = reactive({
 	activeMode: "select",
@@ -85,7 +59,7 @@ onMounted(() => {
 			lib: MapLibreGL,
 			map,
 		}),
-		modes,
+		modes: terraStore.modes,
 	});
 
 	// Events
@@ -109,7 +83,6 @@ onMounted(() => {
 	<div class="wrap">
 		<terra-map-menu
 			title="MapLibre"
-			:modes="modes"
 			:features="state.features"
 			v-model:activeMode="state.activeMode"
 		/>
