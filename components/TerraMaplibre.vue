@@ -8,6 +8,14 @@ import {
 	TerraDraw,
 	TerraDrawMapLibreGLAdapter,
 	TerraDrawFreehandMode,
+	TerraDrawLineStringMode,
+	TerraDrawCircleMode,
+	TerraDrawGreatCircleMode,
+	TerraDrawPointMode,
+	TerraDrawPolygonMode,
+	TerraDrawRectangleMode,
+	TerraDrawSelectMode,
+	// TerraDrawRenderMode,
 } from "terra-draw";
 
 // Configuration
@@ -15,6 +23,34 @@ const id = "maplibre-map";
 const lng = -1.826252;
 const lat = 51.179026;
 const zoom = 16;
+
+let draw = null;
+const modes = [
+	new TerraDrawFreehandMode(),
+	new TerraDrawLineStringMode(),
+	new TerraDrawCircleMode(),
+	new TerraDrawGreatCircleMode(),
+	new TerraDrawPointMode(),
+	new TerraDrawPolygonMode(),
+	new TerraDrawRectangleMode(),
+	new TerraDrawSelectMode(),
+	// new TerraDrawRenderMode({
+	// 	modeName: "render",
+	// }),
+];
+
+const state = reactive({
+	activeMode: "select",
+	features: [],
+});
+
+watch(state, (oldValue, newValue) => {
+	console.log("TerraMaplibre.vue: watch state: ", oldValue, newValue);
+
+	if (draw) {
+		draw.setMode(state.activeMode);
+	}
+});
 
 onMounted(() => {
 	// Create Map
@@ -44,22 +80,57 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	const draw = new TerraDraw({
+	draw = new TerraDraw({
 		adapter: new TerraDrawMapLibreGLAdapter({
 			lib: MapLibreGL,
 			map,
 		}),
-		modes: [new TerraDrawFreehandMode()],
+		modes,
+	});
+
+	// Events
+	draw.on("change", (ids, type) => {
+		console.log("TerraMaplibre.vue: change: ", ids, type);
+
+		//Done editing
+		if (type === "delete") {
+			// Get the Store snapshot
+			state.features = draw.getSnapshot();
+		}
 	});
 
 	// Start drawing
 	draw.start();
-	draw.setMode("freehand");
+	draw.setMode(state.activeMode);
 });
 </script>
 
 <template>
-	<div class="map" id="maplibre-map"></div>
+	<div class="wrap">
+		<terra-map-menu
+			title="MapLibre"
+			:modes="modes"
+			:features="state.features"
+			v-model:activeMode="state.activeMode"
+		/>
+
+		<div class="map" id="maplibre-map"></div>
+	</div>
 </template>
 
-<style></style>
+<style lang="less">
+.wrap {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	.map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+</style>
