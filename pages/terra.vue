@@ -1,4 +1,7 @@
 <script setup>
+const { modes, changeMode } = useTerraStore();
+const { activeMode } = storeToRefs(useTerraStore());
+
 const state = reactive(
 	new Map([
 		[
@@ -70,6 +73,18 @@ const isActive = (map) => {
 					@click="toggleMap('mapbox')"
 				>
 					Mapbox
+				</div>
+
+				<div class="mode-select">
+					<select @change="changeMode($event.target.value)">
+						<option
+							v-for="(mode, index) in modes"
+							:key="index"
+							:value="mode.mode"
+							:selected="mode.mode === activeMode"
+							v-text="mode.mode"
+						/>
+					</select>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 export const useTerraStore = defineStore("terra", () => {
 	// Terra Draw modes
-	const modes = reactive([
+	const modes = [
 		new TerraDrawFreehandMode(),
 		new TerraDrawLineStringMode(),
 		new TerraDrawCircleMode(),
@@ -12,7 +12,13 @@ export const useTerraStore = defineStore("terra", () => {
 		// new TerraDrawRenderMode({
 		// 	modeName: "render",
 		// }),
-	]);
+	];
 
-	return { modes };
+	const activeMode = ref("select");
+
+	function changeMode(mode) {
+		activeMode.value = mode;
+	}
+
+	return { modes, activeMode, changeMode };
 });

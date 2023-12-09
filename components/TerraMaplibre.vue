@@ -3,7 +3,8 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const terraStore = useTerraStore();
+const { modes } = useTerraStore();
+const { activeMode } = storeToRefs(useTerraStore());
 
 // Configuration
 const id = "maplibre-map";
@@ -11,19 +12,8 @@ const lng = -1.826252;
 const lat = 51.179026;
 const zoom = 16;
 
-let draw = null;
-
 const state = reactive({
-	activeMode: "select",
 	features: [],
-});
-
-watch(state, (oldValue, newValue) => {
-	console.log("TerraMaplibre.vue: watch state: ", oldValue, newValue);
-
-	if (draw) {
-		draw.setMode(state.activeMode);
-	}
 });
 
 onMounted(() => {
@@ -54,18 +44,21 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	draw = new TerraDraw({
+	const draw = new TerraDraw({
 		adapter: new TerraDrawMapLibreGLAdapter({
 			lib: MapLibreGL,
 			map,
 		}),
-		modes: terraStore.modes,
+		modes,
+	});
+
+	// Watch for changes
+	watch(activeMode, () => {
+		draw.setMode(activeMode.value);
 	});
 
 	// Events
 	draw.on("change", (ids, type) => {
-		console.log("TerraMaplibre.vue: change: ", ids, type);
-
 		//Done editing
 		if (type === "delete") {
 			// Get the Store snapshot
@@ -75,17 +68,13 @@ onMounted(() => {
 
 	// Start drawing
 	draw.start();
-	draw.setMode(state.activeMode);
+	draw.setMode(activeMode.value);
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu
-			title="MapLibre"
-			:features="state.features"
-			v-model:activeMode="state.activeMode"
-		/>
+		<terra-map-menu title="MapLibre" :features="state.features" />
 
 		<div class="map" id="maplibre-map"></div>
 	</div>

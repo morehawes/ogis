@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
     presets: [
+      // Load Terra Draw
       {
         from: "terra-draw",
         imports: [

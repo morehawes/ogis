@@ -26,20 +26,6 @@ onMounted(() => {
 <template>
 	<div class="map-menu">
 		<div class="title">{{ title }}</div>
-		<div class="modes">
-			<div class="mode-select">
-				<select @change="$emit('update:activeMode', $event.target.value)">
-					<option
-						v-for="(mode, index) in terraStore.modes"
-						:key="index"
-						:value="mode.mode"
-						:selected="mode.mode === activeMode"
-						v-text="mode.mode"
-					/>
-				</select>
-			</div>
-		</div>
-
 		<textarea v-show="features.length" class="features" readonly>{{
 			JSON.stringify(features)
 		}}</textarea>
