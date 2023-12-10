@@ -3,25 +3,21 @@
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawMapboxGLAdapter,
-	TerraDrawFreehandMode,
-} from "terra-draw";
+const { getModes } = useTerraStore();
+const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+
+const state = reactive({
+	features: [],
+});
 
 // Configuration
-const id = "mapbox-map";
-const lng = -1.826252;
-const lat = 51.179026;
-const zoom = 16;
 const apiKey = "132";
 
 onMounted(() => {
 	// Create Map
 	mapboxgl.accessToken = apiKey;
 	const map = new mapboxgl.Map({
-		container: id,
+		container: "mapbox-map",
 		style: {
 			version: 8,
 			sources: {
@@ -41,8 +37,8 @@ onMounted(() => {
 				},
 			],
 		},
-		center: [lng, lat],
-		zoom: zoom,
+		center: [lng.value, lat.value],
+		zoom: zoom.value,
 	});
 
 	// Create Terra Draw
@@ -51,17 +47,34 @@ onMounted(() => {
 			// lib: mapboxgl,
 			map,
 		}),
-		modes: [new TerraDrawFreehandMode()],
+		modes: getModes(),
+	});
+
+	// Events
+	draw.on("change", (ids, type) => {
+		//Done editing
+		if (type === "delete") {
+			// Get the Store snapshot
+			state.features = draw.getSnapshot();
+		}
 	});
 
 	// Start drawing
 	draw.start();
-	draw.setMode("freehand");
+	draw.setMode(activeMode.value);
+
+	// Watch for changes
+	watch(activeMode, () => {
+		draw.setMode(activeMode.value);
+	});
 });
 </script>
 
 <template>
-	<div class="map" id="mapbox-map"></div>
+	<div class="wrap">
+		<terra-map-menu title="Mapbox" :features="state.features" />
+		<div class="map" id="mapbox-map"></div>
+	</div>
 </template>
 
 <style></style>

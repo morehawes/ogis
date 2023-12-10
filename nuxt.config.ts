@@ -23,6 +23,7 @@ export default defineNuxtConfig({
           "TerraDrawMapboxGLAdapter",
           "TerraDrawLeafletAdapter",
           "TerraDrawGoogleMapsAdapter",
+          "TerraDrawMapboxGLAdapter",
 
           //Modes
           "TerraDrawFreehandMode",

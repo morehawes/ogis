@@ -6,7 +6,13 @@ const state = reactive(
 	new Map([
 		[
 			"activeMaps",
-			new Set(["leaflet", "maplibre", "openlayers", "google", "mapbox"]),
+			new Set([
+				"leaflet",
+				"maplibre",
+				// "openlayers",
+				"google",
+				"mapbox",
+			]),
 		],
 	]),
 );
@@ -49,13 +55,13 @@ const isActive = (map) => {
 				</div>
 
 				<!-- OpenLayers -->
-				<div
+				<!-- 				<div
 					class="toggle-openlayers"
 					:class="{ active: isActive('openlayers') }"
 					@click="toggleMap('openlayers')"
 				>
 					OpenLayers
-				</div>
+				</div> -->
 
 				<!-- Google Maps -->
 				<div
@@ -77,12 +83,13 @@ const isActive = (map) => {
 
 				<div class="mode-select">
 					<select @change="changeMode($event.target.value)">
+						<!-- Convert the option text from lower to Title Case -->
 						<option
 							v-for="(mode, index) in getModes()"
 							:key="index"
 							:value="mode.mode"
 							:selected="mode.mode === activeMode"
-							v-text="mode.mode"
+							:text="mode.mode.toUpperCase()"
 						/>
 					</select>
 				</div>
