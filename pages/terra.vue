@@ -1,5 +1,5 @@
 <script setup>
-const { modes, changeMode } = useTerraStore();
+const { getModes, changeMode } = useTerraStore();
 const { activeMode } = storeToRefs(useTerraStore());
 
 const state = reactive(
@@ -78,7 +78,7 @@ const isActive = (map) => {
 				<div class="mode-select">
 					<select @change="changeMode($event.target.value)">
 						<option
-							v-for="(mode, index) in modes"
+							v-for="(mode, index) in getModes()"
 							:key="index"
 							:value="mode.mode"
 							:selected="mode.mode === activeMode"

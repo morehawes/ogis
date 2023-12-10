@@ -3,7 +3,7 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const { modes } = useTerraStore();
+const { getModes } = useTerraStore();
 const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
 
 const state = reactive({
@@ -43,12 +43,7 @@ onMounted(() => {
 			lib: MapLibreGL,
 			map,
 		}),
-		modes,
-	});
-
-	// Watch for changes
-	watch(activeMode, () => {
-		draw.setMode(activeMode.value);
+		modes: getModes(),
 	});
 
 	// Events
@@ -62,6 +57,12 @@ onMounted(() => {
 
 	// Start drawing
 	draw.start();
+
+	// Watch for changes
+	watch(activeMode, () => {
+		draw.setMode(activeMode.value);
+	});
+
 	draw.setMode(activeMode.value);
 });
 </script>

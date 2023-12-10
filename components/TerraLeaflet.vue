@@ -3,24 +3,18 @@
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawLeafletAdapter,
-	TerraDrawFreehandMode,
-} from "terra-draw";
+const { getModes } = useTerraStore();
+const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
 
-// Configuration
-const id = "leaflet-map";
-const lng = -1.826252;
-const lat = 51.179026;
-const zoom = 16;
+const state = reactive({
+	features: [],
+});
 
 onMounted(() => {
 	// Create Map
-	const map = L.map(id, {
-		center: [lat, lng],
-		zoom: zoom,
+	const map = L.map("leaflet-map", {
+		center: [lat.value, lng.value],
+		zoom: zoom.value,
 	});
 
 	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -34,12 +28,26 @@ onMounted(() => {
 			lib: L,
 			map,
 		}),
-		modes: [new TerraDrawFreehandMode()],
+		modes: getModes(),
+	});
+
+	// Events
+	draw.on("change", (ids, type) => {
+		//Done editing
+		if (type === "delete") {
+			// Get the Store snapshot
+			state.features = draw.getSnapshot();
+		}
 	});
 
 	// Start drawing
 	draw.start();
-	draw.setMode("freehand");
+	draw.setMode(activeMode.value);
+
+	// Watch for changes
+	watch(activeMode, () => {
+		draw.setMode(activeMode.value);
+	});
 });
 </script>
 
