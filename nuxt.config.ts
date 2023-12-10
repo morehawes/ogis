@@ -1,7 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
-  devtools: { enabled: true },
+
+  runtimeConfig: {
+    public: {
+      MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+      GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+    },
+  },
   imports: {
     dirs: ["stores"],
     presets: [
@@ -16,6 +22,7 @@ export default defineNuxtConfig({
           "TerraDrawOpenLayersAdapter",
           "TerraDrawMapboxGLAdapter",
           "TerraDrawLeafletAdapter",
+          "TerraDrawGoogleMapsAdapter",
 
           //Modes
           "TerraDrawFreehandMode",

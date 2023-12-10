@@ -2,19 +2,18 @@
 // Import OpenLayers
 import { Loader } from "@googlemaps/js-api-loader";
 
-// Import Terra Draw
-import {
-	TerraDraw,
-	TerraDrawGoogleMapsAdapter,
-	TerraDrawFreehandMode,
-} from "terra-draw";
+const { getModes } = useTerraStore();
+const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
 
-// Configuration
+// Get .env variables
+const config = useRuntimeConfig();
+const apiKey = config.public.GOOGLE_API_KEY;
+
+const state = reactive({
+	features: [],
+});
+
 const id = "google-map";
-const lng = -1.826252;
-const lat = 51.179026;
-const zoom = 17;
-const apiKey = "";
 
 onMounted(() => {
 	const loader = new Loader({
@@ -25,10 +24,10 @@ onMounted(() => {
 	loader.load().then((google) => {
 		const map = new google.maps.Map(document.getElementById(id), {
 			disableDefaultUI: true,
-			center: { lat, lng },
-			zoom: zoom,
+			center: { lat: lat.value, lng: lng.value },
+			zoom: zoom.value,
 			clickableIcons: false,
-			mapId: id,
+			mapId: "google-map",
 		});
 
 		map.addListener("projection_changed", () => {
@@ -38,19 +37,37 @@ onMounted(() => {
 					map,
 					coordinatePrecision: 9,
 				}),
-				modes: [new TerraDrawFreehandMode()],
+				modes: getModes(),
+			});
+
+			// Events
+			draw.on("change", (ids, type) => {
+				//Done editing
+				if (type === "delete") {
+					// Get the Store snapshot
+					state.features = draw.getSnapshot();
+				}
 			});
 
 			// Start drawing
 			draw.start();
-			draw.setMode("freehand");
+			draw.setMode(activeMode.value);
+
+			// Watch for changes
+			watch(activeMode, () => {
+				draw.setMode(activeMode.value);
+			});
 		});
 	});
 });
 </script>
 
 <template>
-	<div class="map" id="google-map"></div>
+	<div class="wrap">
+		<terra-map-menu title="Google Maps" :features="state.features" />
+
+		<div class="map" id="google-map"></div>
+	</div>
 </template>
 
 <style></style>

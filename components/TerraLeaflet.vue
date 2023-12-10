@@ -52,7 +52,11 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="map" id="leaflet-map"></div>
+	<div class="wrap">
+		<terra-map-menu title="Leaflet" :features="state.features" />
+
+		<div class="map" id="leaflet-map"></div>
+	</div>
 </template>
 
 <style></style>
