@@ -1,59 +1,47 @@
 <script setup>
 //Import Leaflet
-import * as L from "leaflet";
+import * as lib from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const { getModes } = useTerraStore();
-const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
-const state = reactive({
+const state = ref({
 	features: [],
 });
 
 onMounted(() => {
 	// Create Map
-	const map = L.map("leaflet-map", {
+	const map = lib.map("leaflet-map", {
 		center: [lat.value, lng.value],
 		zoom: zoom.value,
 	});
 
-	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-		attribution:
-			'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	}).addTo(map);
+	lib
+		.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+			attribution:
+				'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		})
+		.addTo(map);
 
 	// Create Terra Draw
-	const draw = new TerraDraw({
-		adapter: new TerraDrawLeafletAdapter({
-			lib: L,
+	const { state: drawState } = useTerraDraw(
+		new TerraDrawLeafletAdapter({
+			lib,
 			map,
 		}),
-		modes: getModes(),
-	});
+	);
 
-	// Events
-	draw.on("change", (ids, type) => {
-		//Done editing
-		if (type === "delete") {
-			// Get the Store snapshot
-			state.features = draw.getSnapshot();
-		}
-	});
+	state.value = drawState.value;
+});
 
-	// Start drawing
-	draw.start();
-	draw.setMode(activeMode.value);
-
-	// Watch for changes
-	watch(activeMode, () => {
-		draw.setMode(activeMode.value);
-	});
+const features = computed(() => {
+	return state.value?.features ?? [];
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu title="Leaflet" :features="state.features" />
+		<terra-map-menu title="Leaflet" :features="features" />
 
 		<div class="map" id="leaflet-map"></div>
 	</div>

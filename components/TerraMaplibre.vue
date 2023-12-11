@@ -1,15 +1,17 @@
 <script setup>
 // Import MapLibre
-import MapLibreGL from "maplibre-gl";
+import * as lib from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
-const state = ref({ features: [] });
+const state = ref({
+	features: [],
+});
 
 onMounted(() => {
 	// Create Map
-	const map = new MapLibreGL.Map({
+	const map = new lib.Map({
 		container: "maplibre-map",
 		style: {
 			version: 8,
@@ -37,7 +39,7 @@ onMounted(() => {
 	// Create Terra Draw
 	const { state: drawState } = useTerraDraw(
 		new TerraDrawMapLibreGLAdapter({
-			lib: MapLibreGL,
+			lib,
 			map,
 		}),
 	);
