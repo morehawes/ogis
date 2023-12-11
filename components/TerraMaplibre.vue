@@ -5,11 +5,9 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
-const mapReady = ref(false);
+const state = ref({ features: [] });
 
 onMounted(() => {
-	console.debug("Mounted MapLibre");
-
 	// Create Map
 	const map = new MapLibreGL.Map({
 		container: "maplibre-map",
@@ -44,19 +42,17 @@ onMounted(() => {
 		}),
 	);
 
-	mapReady.value = drawState.value.status === "init";
+	state.value = drawState.value;
 });
 
-const drawFeatures = computed(() => {
-	if (!mapReady.value || typeof drawState === "undefined") return [];
-
-	return drawState.value.features;
+const features = computed(() => {
+	return state.value?.features ?? [];
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu title="MapLibre" :features="drawFeatures" />
+		<terra-map-menu title="MapLibre" :features="features" />
 
 		<div class="map" id="maplibre-map"></div>
 	</div>
