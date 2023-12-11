@@ -41,7 +41,9 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	const { state: drawState } = useTerraDraw(
+	const { init, state: drawState } = useTerraDraw();
+
+	init(
 		new TerraDrawMapboxGLAdapter({
 			lib,
 			map,

@@ -33,7 +33,9 @@ onMounted(() => {
 		// Once Map loaded
 		map.addListener("projection_changed", () => {
 			// Create Terra Draw
-			const { state: drawState } = useTerraDraw(
+			const { init, state: drawState } = useTerraDraw();
+
+			init(
 				new TerraDrawGoogleMapsAdapter({
 					lib: google.maps,
 					map,

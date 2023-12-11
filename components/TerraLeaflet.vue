@@ -13,7 +13,8 @@ onMounted(() => {
 	// Create Map
 	const map = lib.map("leaflet-map", {
 		center: [lat.value, lng.value],
-		zoom: zoom.value,
+		// Bump up zoom to match others
+		zoom: zoom.value + 1,
 	});
 
 	lib
@@ -24,7 +25,10 @@ onMounted(() => {
 		.addTo(map);
 
 	// Create Terra Draw
-	const { state: drawState } = useTerraDraw(
+	const { init, state: drawState } = useTerraDraw();
+
+	// Initialize Terra Draw
+	init(
 		new TerraDrawLeafletAdapter({
 			lib,
 			map,

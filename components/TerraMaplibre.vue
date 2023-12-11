@@ -37,7 +37,9 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	const { state: drawState } = useTerraDraw(
+	const { init, state: drawState } = useTerraDraw();
+
+	init(
 		new TerraDrawMapLibreGLAdapter({
 			lib,
 			map,

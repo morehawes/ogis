@@ -12,7 +12,6 @@ import { fromLonLat, toLonLat } from "ol/proj";
 import "ol/ol.css";
 
 const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
-const { getModes } = useTerraStore();
 
 const state = reactive({
 	features: [],
@@ -51,7 +50,7 @@ onMounted(() => {
 				map,
 				coordinatePrecision: 9,
 			}),
-			modes: getModes(),
+			// modes: getModes(),
 		});
 		// Start drawing
 		draw.start();

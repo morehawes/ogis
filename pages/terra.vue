@@ -1,5 +1,6 @@
 <script setup>
-const { getModes, changeMode } = useTerraStore();
+const { getModes } = useTerraDraw();
+const { changeMode } = useTerraStore();
 const { activeMode } = storeToRefs(useTerraStore());
 
 const state = reactive(
