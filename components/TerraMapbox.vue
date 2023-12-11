@@ -1,12 +1,11 @@
 <script setup>
 // Import MapBox GL
-import mapboxgl from "mapbox-gl";
+import * as lib from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const { getModes } = useTerraStore();
-const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
-const state = reactive({
+const state = ref({
 	features: [],
 });
 
@@ -15,8 +14,8 @@ const apiKey = "132";
 
 onMounted(() => {
 	// Create Map
-	mapboxgl.accessToken = apiKey;
-	const map = new mapboxgl.Map({
+	lib.accessToken = apiKey;
+	const map = new lib.Map({
 		container: "mapbox-map",
 		style: {
 			version: 8,
@@ -42,37 +41,24 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	const draw = new TerraDraw({
-		adapter: new TerraDrawMapboxGLAdapter({
-			// lib: mapboxgl,
+	const { state: drawState } = useTerraDraw(
+		new TerraDrawMapboxGLAdapter({
+			lib,
 			map,
 		}),
-		modes: getModes(),
-	});
+	);
 
-	// Events
-	draw.on("change", (ids, type) => {
-		//Done editing
-		if (type === "delete") {
-			// Get the Store snapshot
-			state.features = draw.getSnapshot();
-		}
-	});
+	state.value = drawState.value;
+});
 
-	// Start drawing
-	draw.start();
-	draw.setMode(activeMode.value);
-
-	// Watch for changes
-	watch(activeMode, () => {
-		draw.setMode(activeMode.value);
-	});
+const features = computed(() => {
+	return state.value?.features ?? [];
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu title="Mapbox" :features="state.features" />
+		<terra-map-menu title="Mapbox" :features="features" />
 		<div class="map" id="mapbox-map"></div>
 	</div>
 </template>
