@@ -1,43 +1,36 @@
-export function useTerraDraw(map = null, lib = null) {
-	const draw = ref(null);
-	const state = ref({ status: null });
+export function useTerraDraw(adapter) {
+	const { getModes } = useTerraStore();
+	const { activeMode } = storeToRefs(useTerraStore());
+
+	const state = ref({ status: null, features: null });
 
 	// Initialise Terra Draw
-	onMounted(() => {
-		console.debug("useTerraDraw onMounted");
-
-		// Create Terra Draw
-		const draw = new TerraDraw({
-			adapter: new TerraDrawMapLibreGLAdapter({
-				lib: MapLibreGL,
-				map,
-			}),
-			modes: getModes(),
-		});
-
-		// Events
-		draw.on("change", (ids, type) => {
-			//Done editing
-			if (type === "delete") {
-				// Get the Store snapshot
-				state.features = draw.getSnapshot();
-			}
-		});
-
-		// Start drawing
-		draw.start();
-
-		// Watch for changes
-		watch(activeMode, () => {
-			draw.setMode(activeMode.value);
-		});
-
-		draw.setMode(activeMode.value);
-
-		// draw.value.setMode("select");
-
-		state.value.status = "init";
+	const draw = new TerraDraw({
+		adapter,
+		modes: getModes(),
 	});
+
+	// Start drawing
+	draw.start();
+
+	// Watch for changes
+	watch(activeMode, () => {
+		draw.setMode(activeMode.value);
+	});
+
+	// Events
+	draw.on("change", (ids, type) => {
+		//Done editing
+		if (type === "delete") {
+			// Get the Store snapshot
+			state.value.features = draw.getSnapshot();
+		}
+	});
+
+	draw.setMode(activeMode.value);
+
+	state.value.status = "init";
+	// });
 
 	return {
 		draw,

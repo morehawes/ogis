@@ -3,14 +3,13 @@
 import MapLibreGL from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const { getModes } = useTerraStore();
-const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
-const state = reactive({
-	features: [],
-});
+const mapReady = ref(false);
 
 onMounted(() => {
+	console.debug("Mounted MapLibre");
+
 	// Create Map
 	const map = new MapLibreGL.Map({
 		container: "maplibre-map",
@@ -38,38 +37,26 @@ onMounted(() => {
 	});
 
 	// Create Terra Draw
-	const draw = new TerraDraw({
-		adapter: new TerraDrawMapLibreGLAdapter({
+	const { state: drawState } = useTerraDraw(
+		new TerraDrawMapLibreGLAdapter({
 			lib: MapLibreGL,
 			map,
 		}),
-		modes: getModes(),
-	});
+	);
 
-	// Events
-	draw.on("change", (ids, type) => {
-		//Done editing
-		if (type === "delete") {
-			// Get the Store snapshot
-			state.features = draw.getSnapshot();
-		}
-	});
+	mapReady.value = drawState.value.status === "init";
+});
 
-	// Start drawing
-	draw.start();
+const drawFeatures = computed(() => {
+	if (!mapReady.value || typeof drawState === "undefined") return [];
 
-	// Watch for changes
-	watch(activeMode, () => {
-		draw.setMode(activeMode.value);
-	});
-
-	draw.setMode(activeMode.value);
+	return drawState.value.features;
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu title="MapLibre" :features="state.features" />
+		<terra-map-menu title="MapLibre" :features="drawFeatures" />
 
 		<div class="map" id="maplibre-map"></div>
 	</div>

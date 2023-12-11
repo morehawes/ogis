@@ -46,13 +46,13 @@ const isActive = (map) => {
 				</div>
 
 				<!-- MapLibre -->
-				<div
+				<!-- 				<div
 					class="toggle-maplibre"
 					:class="{ active: isActive('maplibre') }"
 					@click="toggleMap('maplibre')"
 				>
 					MapLibre
-				</div>
+				</div> -->
 
 				<!-- OpenLayers -->
 				<!-- 				<div
