@@ -2,14 +2,13 @@
 // Import OpenLayers
 import { Loader } from "@googlemaps/js-api-loader";
 
-const { getModes } = useTerraStore();
-const { activeMode, lng, lat, zoom } = storeToRefs(useTerraStore());
+const { lng, lat, zoom } = storeToRefs(useTerraStore());
 
 // Get .env variables
 const config = useRuntimeConfig();
 const apiKey = config.public.GOOGLE_API_KEY;
 
-const state = reactive({
+const state = ref({
 	features: [],
 });
 
@@ -22,6 +21,7 @@ onMounted(() => {
 	});
 
 	loader.load().then((google) => {
+		// Create Map
 		const map = new google.maps.Map(document.getElementById(id), {
 			disableDefaultUI: true,
 			center: { lat: lat.value, lng: lng.value },
@@ -30,41 +30,29 @@ onMounted(() => {
 			mapId: "google-map",
 		});
 
+		// Once Map loaded
 		map.addListener("projection_changed", () => {
-			const draw = new TerraDraw({
-				adapter: new TerraDrawGoogleMapsAdapter({
+			// Create Terra Draw
+			const { state: drawState } = useTerraDraw(
+				new TerraDrawGoogleMapsAdapter({
 					lib: google.maps,
 					map,
-					coordinatePrecision: 9,
 				}),
-				modes: getModes(),
-			});
+			);
 
-			// Events
-			draw.on("change", (ids, type) => {
-				//Done editing
-				if (type === "delete") {
-					// Get the Store snapshot
-					state.features = draw.getSnapshot();
-				}
-			});
-
-			// Start drawing
-			draw.start();
-			draw.setMode(activeMode.value);
-
-			// Watch for changes
-			watch(activeMode, () => {
-				draw.setMode(activeMode.value);
-			});
+			state.value = drawState.value;
 		});
 	});
+});
+
+const features = computed(() => {
+	return state.value?.features ?? [];
 });
 </script>
 
 <template>
 	<div class="wrap">
-		<terra-map-menu title="Google Maps" :features="state.features" />
+		<terra-map-menu title="Google Maps" :features="features" />
 
 		<div class="map" id="google-map"></div>
 	</div>
